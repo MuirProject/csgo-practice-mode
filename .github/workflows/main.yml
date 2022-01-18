@@ -28,7 +28,7 @@ jobs:
       - name: build
         run: |
           cd addons/sourcemod/scripting
-          ./compile.sh practicemode.smx
+          ./compile.sh practicemode.sp
           ./compile.sh csutils.sp
           ./compile.sh botmimic.sp
       
