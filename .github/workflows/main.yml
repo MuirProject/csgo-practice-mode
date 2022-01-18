@@ -8,10 +8,6 @@ jobs:
     steps:
       - uses: actions/checkout@v2
 
-      - uses: actions/setup-python@v2
-        with:
-          python-version: '2.x'
-
       - name: before build
         run: |
           sudo apt-get install -y lib32stdc++6
@@ -19,7 +15,7 @@ jobs:
           wget -qO sourcemod.tar.gz "http://sourcemod.net/latest.php?os=linux&version=1.9"
           tar xfz sourcemod.tar.gz
           cp scripting/* addons/sourcemod/scripting/ -rf
-          cp botmimic/scripting/* addons/sourcemod/scripting/ -rf
+          cp --remove-destination botmimic/scripting/* addons/sourcemod/scripting/ -rf
           cd addons/sourcemod/scripting/
           chmod +x spcomp
           PATH+=":$PWD"
