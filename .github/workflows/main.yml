@@ -34,8 +34,8 @@ jobs:
       
       - name: package
         run: |
-          mkdir -p package/addons/sourcemod/scripting/
-          cp addons/sourcemod/scripting/compiled/* package/addons/sourcemod/scripting/ -rf
+          mkdir -p package/addons/sourcemod/plugins/
+          cp addons/sourcemod/scripting/compiled/* package/addons/sourcemod/plugins/ -rf
           cp configs package/addons/sourcemod/ -rf
           cp data package/addons/sourcemod/ -rf
 
