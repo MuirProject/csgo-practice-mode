@@ -22,6 +22,7 @@ stock void GiveReplayEditorMenu(int client, int pos = 0) {
     int style = EnabledIf(recordedLastRole);
     if (HasRoleRecorded(g_ReplayId[client], i)) {
       char roleName[REPLAY_NAME_LENGTH];
+	  if (GetRoleName(g_ReplayId[client], i, roleName, sizeof(roleName))) {
         AddMenuIntStyle(menu, i, style, "更改玩家 %d 角色 (%s)", i + 1, roleName);
       } else {
         AddMenuIntStyle(menu, i, style, "更改玩家 %d 角色", i + 1);
