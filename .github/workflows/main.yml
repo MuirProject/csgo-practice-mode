@@ -1,0 +1,36 @@
+name: CI
+on:
+  push:
+  workflow_dispatch:
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: before_script
+        run: |
+          sudo apt-get install -y lib32stdc++6
+          git clone https://github.com/splewis/sm-builder
+          cd sm-builder
+          pip install --user -r requirements.txt
+          python setup.py install --prefix=~/.local
+          cd ..
+          wget -O sourcemod.tar.gz "http://sourcemod.net/latest.php?os=linux&version=1.11"
+          tar xfz sourcemod.tar.gz
+          cp scripting/include/dhooks.inc addons/sourcemod/scripting/include
+          cp scripting/include/botmimic.inc addons/sourcemod/scripting/include
+          cd addons/sourcemod/scripting/
+          chmod +x spcomp
+          PATH+=":$PWD"
+          cd include
+          wget https://raw.githubusercontent.com/splewis/csgo-pug-setup/master/scripting/include/pugsetup.inc
+          wget https://raw.githubusercontent.com/splewis/get5/master/scripting/include/get5.inc
+          git clone https://github.com/bcserv/smlib
+          cp -r smlib/scripting/include/* .
+      - name: script
+        run: smbuilder --flags="-E"
+        
+      - uses: actions/upload-artifact@v2
+        with:
+          name: compiled
+          path: addons/sourcemod/scripting/compiled/
