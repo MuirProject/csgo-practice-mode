@@ -12,19 +12,14 @@ jobs:
         with:
           python-version: '2.x'
 
-      - name: before_script
+      - name: before build
         run: |
           sudo apt-get install -y lib32stdc++6
           git submodule update --init
-          git clone https://github.com/splewis/sm-builder
-          cd sm-builder
-          pip2 install --user -r requirements.txt
-          python2 setup.py install --prefix=~/.local
-          cd ..
-          wget -qO sourcemod.tar.gz "http://sourcemod.net/latest.php?os=linux&version=1.11"
+          wget -qO sourcemod.tar.gz "http://sourcemod.net/latest.php?os=linux&version=1.9"
           tar xfz sourcemod.tar.gz
-          cp scripting/include/dhooks.inc addons/sourcemod/scripting/include
-          cp scripting/include/botmimic.inc addons/sourcemod/scripting/include
+          cp scripting/* addons/sourcemod/scripting/ -rf
+          cp botmimic/scripting/* addons/sourcemod/scripting/ -rf
           cd addons/sourcemod/scripting/
           chmod +x spcomp
           PATH+=":$PWD"
@@ -34,8 +29,12 @@ jobs:
           git clone https://github.com/bcserv/smlib
           cp -r smlib/scripting/include/* .
 
-      - name: script
-        run: smbuilder --flags="-E"
+      - name: build
+        run: |
+          cd addons/sourcemod/scripting
+          ./compile.sh playercommands.sp
+          ./compile.sh csutils.sp
+          ./compile.sh botmimic.sp
         
       - uses: actions/upload-artifact@v2
         with:
