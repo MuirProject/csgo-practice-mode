@@ -28,11 +28,18 @@ jobs:
       - name: build
         run: |
           cd addons/sourcemod/scripting
-          ./compile.sh playercommands.sp
+          ./compile.sh practicemode.smx
           ./compile.sh csutils.sp
           ./compile.sh botmimic.sp
-        
+      
+      - name: package
+        run: |
+          mkdir -r package/addons/sourcemod/scripting/
+          cp addons/sourcemod/scripting/compiled/* package/addons/sourcemod/scripting/ -rf
+          cp configs package/addons/sourcemod/ -rf
+          cp data package/addons/sourcemod/ -rf
+
       - uses: actions/upload-artifact@v2
         with:
           name: compiled
-          path: addons/sourcemod/scripting/compiled/
+          path: package
