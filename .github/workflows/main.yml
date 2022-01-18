@@ -14,6 +14,7 @@ jobs:
           git clone https://github.com/splewis/sm-builder
           cd sm-builder
           pip install --user -r requirements.txt
+          pip install --user base parser builder structbuilder
           python setup.py install --prefix=~/.local
           cd ..
           wget -qO sourcemod.tar.gz "http://sourcemod.net/latest.php?os=linux&version=1.11"
